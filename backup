@@ -6,7 +6,7 @@ args=("${@}") && [ -n "${args}" ] || args=("${PWD}")
 for arg in "${args[@]}"; do
     [ -d "${arg}" ] || continue
     find "${arg}" -type d | while read dir; do
-        emblems=$(gio info -na metadata::emblems "$(realpath "${dir}")" | awk 'match($0, "metadata::emblems: \\[(.+)\\]",m) { print m[1] }')
+        emblems=$(gio info -na metadata::emblems "$(realpath "${dir}")" | awk 'match($0, "metadata::emblems: \\[(.+)\\]",m) { print m[1] }' | sed 's/,/ /g')
         [ -n "${emblems}" ] && echo "${emblems}" > "${dir}/.emblems~"
     done
 done

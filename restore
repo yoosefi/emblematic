@@ -7,7 +7,8 @@ for arg in "${args[@]}"; do
     find "${arg}" -type d | while read dir; do
         emblems="${dir}/.emblems~"
         if [ -f "${emblems}" ]; then
-            gio set -nt stringv "$(realpath "${dir}")" metadata::emblems $(<"${emblems}")
+            emblems=($(<"${emblems}"))
+            gio set -nt stringv "$(realpath "${dir}")" metadata::emblems "${emblems[@]}"
             # poke inotify (nemo refresh) by touching without changing
             touch -r "${dir}" "${dir}"
         fi
