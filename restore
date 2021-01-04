@@ -6,6 +6,6 @@ for arg in "${args[@]}"; do
     [ -d "${arg}" ] || continue
     find "${arg}" -type d | while read dir; do
         emblems="${dir}/.emblems~"
-        [ -f "${emblems}" ] && gio set -nt stringv "${dir}" metadata::emblems "$(<"${emblems}")"
+        [ -f "${emblems}" ] && gio set -nt stringv "${dir}" metadata::emblems $(<"${emblems}")
     done
 done
