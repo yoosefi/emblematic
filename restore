@@ -14,3 +14,4 @@ for arg in "${args[@]}"; do
         fi
     done
 done
+

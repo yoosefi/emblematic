@@ -9,3 +9,4 @@ for x in "${@}"; do
         touch -r "${x}" "${x}"
     fi
 done
+
