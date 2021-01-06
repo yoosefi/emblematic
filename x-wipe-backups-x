@@ -1,0 +1,7 @@
+#!/bin/bash
+
+zenity --question --text="Remove all emblem backups?" || exit
+
+args=("${@}") && [ -n "${args}" ] || args=("${PWD}")
+
+find "${args[@]}" -name ".emblems~" -exec rm {} \+
