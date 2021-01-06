@@ -2,16 +2,13 @@
 
 args=("${@}") && [ -n "${args}" ] || args=("${PWD}")
 
-for arg in "${args[@]}"; do
-    [ -d "${arg}" ] || continue
-    find "${arg}" -type d | while read dir; do
-        emblems="${dir}/.emblems~"
-        if [ -f "${emblems}" ]; then
-            emblems=($(<"${emblems}"))
-            gio set -nt stringv "$(realpath "${dir}")" metadata::emblems "${emblems[@]}"
-            # poke inotify (nemo refresh) by touching without changing
-            touch -r "${dir}" "${dir}"
-        fi
-    done
+find "${args[@]}" -type d | while read dir; do
+    emblems="${dir}/.emblems~"
+    if [ -f "${emblems}" ]; then
+        emblems=($(<"${emblems}"))
+        gio set -nt stringv "$(realpath "${dir}")" metadata::emblems "${emblems[@]}"
+        # poke inotify (nemo refresh) by touching without changing
+        touch -r "${dir}" "${dir}"
+    fi
 done
 
