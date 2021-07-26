@@ -3,12 +3,16 @@
 args=("${@}") && [ -n "${args}" ] || args=("${PWD}")
 
 find "${args[@]}" -type d | while read dir; do
-    emblems="${dir}/.emblems~"
-    if [ -f "${emblems}" ]; then
-        emblems=($(<"${emblems}"))
-        gio set -nt stringv "$(realpath "${dir}")" metadata::emblems "${emblems[@]}"
-        # poke inotify (nemo refresh) by touching without changing
-        touch -r "${dir}" "${dir}"
+    dir=$(realpath "${dir}")
+    if [ -f "${dir}/.custom-icon~" ]; then
+        icon=($(<"${dir}/.custom-icon~"))
+        gio set -nt string "${dir}" metadata::custom-icon "${icon[@]}"
     fi
+    if [ -f "${dir}/.emblems~" ]; then
+        emblems=($(<"${dir}/.emblems~"))
+        gio set -nt stringv "${dir}" metadata::emblems "${emblems[@]}"
+    fi
+    # poke inotify (nemo refresh) by touching without changing
+    touch -r "${dir}" "${dir}"
 done
 

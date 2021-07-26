@@ -1,8 +1,8 @@
 #!/bin/bash
 
-zenity --question --text="Remove all emblem backups?" || exit
+zenity --question --text="Remove all custom icon and emblem backups?" || exit
 
 args=("${@}") && [ -n "${args}" ] || args=("${PWD}")
 
+find "${args[@]}" -name ".custom-icon~" -exec rm {} \+
 find "${args[@]}" -name ".emblems~" -exec rm {} \+
-
