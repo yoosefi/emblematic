@@ -3,11 +3,9 @@
 [ -n "${1}" ] || exit
 
 for x in "${@}"; do
-    if [ -d "${x}" ]; then
-        gio set -nt unset "$(realpath "${x}")" metadata::custom-icon
-        gio set -nt unset "$(realpath "${x}")" metadata::emblems
-        # poke inotify (refresh nemo) by touching without changing
-        touch -r "${x}" "${x}"
-    fi
+    gio set -nt unset "$(realpath "${x}")" metadata::custom-icon
+    gio set -nt unset "$(realpath "${x}")" metadata::emblems
+    # poke inotify (refresh nemo) by touching without changing
+    touch -r "${x}" "${x}"
 done
 
